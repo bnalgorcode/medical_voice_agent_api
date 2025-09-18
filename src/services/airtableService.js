@@ -20,7 +20,6 @@ const getDoctors = async () => {
         function page(records, fetchNextPage) {
           console.log(`Fetched ${records.length} records`);
           records.forEach((record) => {
-            console.log("Record fields:", record.fields);
             doctors.push({
               id: record.id,
               name: record.get("Name") || "",
