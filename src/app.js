@@ -2,12 +2,12 @@ const express = require("express");
 const cors = require("cors");
 
 const doctorRoutes = require("./routes/doctorRoutes");
+const zohoRoutes = require("./routes/zohoRoutes");
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
 app.use(
   cors({
     origin: [
@@ -20,5 +20,6 @@ app.use(
 
 // Routes
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/zoho", zohoRoutes);
 
 module.exports = app;
