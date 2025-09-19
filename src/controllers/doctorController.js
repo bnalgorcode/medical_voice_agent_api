@@ -48,7 +48,7 @@ async function askDoctorLLM(req, res) {
       return res.status(404).json({ error: "Doctor not found" });
     }
 
-    const { llm, llm_api_key } = doctor;
+    const { llm, llm_api_key, provider_name, provider_specialty } = doctor;
     if (!llm || !llm_api_key) {
       return res
         .status(400)
@@ -59,7 +59,10 @@ async function askDoctorLLM(req, res) {
     if (llm === "BastionGPT") {
       // Build request payload and headers as per BastionGPT API spec
       const payload = {
-        messages: [{ role: "user", content: question }],
+        messages: [
+          { role: "system", content: `You are a helpful medical assistant for Dr.${provider_name}, who specializes in ${provider_specialty}.\n Always respond as the utmost professional, polite, and ${provider_specialty} with the goal of helping clients, and  assisting clients answer their questions and guiding  them to get information they need.` },
+          { role: "user", content: question }
+        ],
         // optional parameters
         // temperature: 0.7,
         // user: `<some tag>`,
@@ -94,7 +97,7 @@ async function askDoctorLLM(req, res) {
       const payload = {
         model: "gpt-4",
         messages: [
-          { role: "system", content: "You are a helpful medical assistant." },
+          { role: "system", content: `You are a helpful medical assistant for Dr.${provider_name}, who specializes in ${provider_specialty}.\n Always respond as the utmost professional, polite, and ${provider_specialty} with the goal of helping clients, and  assisting clients answer their questions and guiding  them to get information they need.` },
           { role: "user", content: question },
         ],
       };
